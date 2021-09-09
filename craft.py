@@ -2,14 +2,15 @@ import numpy as np
 import imageio
 from craft_text_detector import Craft
 
-craft = Craft(output_dir='output', crop_type="box", cuda=False, export_extra=True)
+craft = Craft(output_dir='output', crop_type="box", cuda=False, export_extra=True) # or cuda=True
 
 def detect(url:str)->bool:
-    print(f'Craft detection for url {url} ...')
-    image: np.ndarray = np.array( imageio.imread(url)) # imread(.) returns a imageio.core.util.Image that is a ndarray...
+    print(f'Craft detection for {url} ...')
+    image: np.ndarray = np.array( imageio.imread(url)) # imread(.) returns a imageio.core.util.Image that IS a Numpy ndarray...
 
     result = craft.detect_text(image)
     if len(result['boxes'])==0: # image with no text at all
+        print("no text here")
         return False
     print("nb of boxes" , result['boxes'].shape[0])
     return is_signature(result)
@@ -50,7 +51,6 @@ def is_signature(prediction_result) -> bool:
     """ true if any of the boxes is at any corner """
     for box in prediction_result['boxes_as_ratios']:
         if is_corner(box) or is_header(box) or is_footer(box):
+            print("signature detected")
             return True
     return False
-
-

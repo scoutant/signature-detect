@@ -16,22 +16,24 @@ For Python we can use this PyTorch implementation : https://github.com/fcakyon/c
 
 Installation cannot be simpler :
 
-    pip install __craft-text-detector__
+    pip install craft-text-detector imageio
 
 Instanciate the engine:
 
-    craft = __Craft__(output_dir='output', crop_type="box")
+    craft = Craft(output_dir='output', crop_type="box")
 
 And run the detection:
 
-    result = craft.__detect_text__([ image])
+    result = craft.detect_text([ image])
 
 The result holds a list of bounding boxes for the detected text regions 
 
 ## Telling signature text from text in the wild
 You may come up with a more advanced solution. For the moment we can use a simple region-based decision.
 
-We state that a signature most often is located in a corner. Or at top or bottom of the image. You may refer [Where do I place my watermark](https://photologo.co/where-do-i-place-my-watermark).
+We state that a signature most often is located in a corner. Or at top or bottom of the image.
+
+You may refer [Where do I place my watermark](https://photologo.co/where-do-i-place-my-watermark).
 
 ![detection](data/photologo-1-1_boundaries.png)
 
@@ -41,4 +43,6 @@ We can traverse the list of text bounding boxes. And if any of them happen to be
   <img src="data/lukeman-boundaries.jpg">
 </p>
 
+## Run the demo tests
 
+    python -m unittest craft_test.py
